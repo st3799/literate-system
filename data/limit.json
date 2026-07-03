@@ -1,0 +1,9 @@
+[
+  {
+    "id": 1,
+    "question": "lim sinx/x = ?",
+    "options": ["0","1","∞","不存在"],
+    "answer": 1,
+    "analysis": "基本极限"
+  }
+]
