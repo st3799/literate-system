@@ -1,50 +1,77 @@
-let questions = [];
-let current = 0;
-let score = 0;
+let current = [];
+let index = 0;
 
-async function load() {
-    const res = await fetch("data/limit.json");
-    questions = await res.json();
+let done = 0;
+let correct = 0;
 
-    current = 0;
-    score = 0;
+const app = document.getElementById("app");
 
-    showQuestion();
+document.querySelectorAll(".btn").forEach(btn=>{
+btn.addEventListener("click",()=>{
+loadChapter(btn.dataset.chapter);
+});
+});
+
+function loadChapter(name){
+
+if(!questionBank[name]){
+alert("题库未加载");
+return;
 }
 
-function showQuestion() {
-    const q = questions[current];
+current = questionBank[name];
+index = 0;
 
-    document.getElementById("box").innerHTML = `
-        <h2>第 ${current + 1} 题</h2>
-        <p>${q.question}</p>
+render();
 
-        ${q.options.map((opt, i) => `
-            <button onclick="check(${i})">${opt}</button>
-        `).join("<br>")}
-
-        <p>当前得分：${score}</p>
-    `;
 }
 
-function check(i) {
-    const q = questions[current];
+function render(){
 
-    if (i === q.answer) {
-        score++;
-        alert("✔ 正确");
-    } else {
-        alert("❌ 错误");
-    }
+const q = current[index];
 
-    current++;
+app.innerHTML = `
+<h2>第 ${index+1} 题</h2>
+<p>${q.q}</p>
 
-    if (current < questions.length) {
-        showQuestion();
-    } else {
-        document.getElementById("box").innerHTML = `
-            <h2>测试完成 🎉</h2>
-            <p>最终得分：${score} / ${questions.length}</p>
-        `;
-    }
+${q.options.map((o,i)=>`
+<div class="option" onclick="check(${i})">${o}</div>
+`).join("")}
+`;
+
+}
+
+window.check = function(i){
+
+const q = current[index];
+
+done++;
+
+if(i === q.a) correct++;
+
+localStorage.setItem("done",done);
+localStorage.setItem("correct",correct);
+
+update();
+
+alert(q.explain);
+
+index++;
+
+if(index < current.length){
+render();
+}else{
+app.innerHTML="完成本章";
+}
+
+}
+
+function update(){
+
+document.getElementById("done").innerText = done;
+
+let rate = done?Math.round(correct/done*100):0;
+
+document.getElementById("rate").innerText = rate + "%";
+
 }
