@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,15 +13,22 @@
 
 <h1>山东专升本高数二刷题系统</h1>
 
-<button onclick="startChapter('limit')">函数与极限</button>
+<div class="card">
+<button class="btn" data-chapter="limit">函数与极限</button>
+<button class="btn" data-chapter="derivative">导数与微分</button>
+</div>
 
-<div class="progress">
+<div class="stats">
 <p>做题数：<span id="done">0</span></p>
-<p>正确率：<span id="accuracy">0%</span></p>
-</div>
-<div id="box"></div>
+<p>正确率：<span id="rate">0%</span></p>
 </div>
 
+<div id="app"></div>
+
+</div>
+
+<script src="questions.js"></script>
 <script src="app.js"></script>
+
 </body>
 </html>
